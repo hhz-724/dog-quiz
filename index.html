@@ -205,7 +205,12 @@ var TYPES = {
     traits:['突如其来的灵感型选手，说走就走','笑点清奇，冷场救星','讨厌被管，但需要有人在终点等你'],
     owner:'需要一个不拴着你、但钥匙永远给你的铲屎官：你尽管跑，回头他还在。',
     best:'边牧——他规划路线，你负责看风景。',
-    mission:'拉他去做一件你们都没做过的小事。' }
+    mission:'拉他去做一件你们都没做过的小事。' },
+  sitter:{ emoji:'🧑', name:'铲屎官', tag:'全场唯一认真做题的人类，专业养狗选手',
+    traits:['照顾人是你的默认设置，总先想别人吃没吃好','嘴上说着随便，其实什么都替人想到了','被夸的时候会假装不在意，其实开心一整天'],
+    owner:'你不需要铲屎官，因为你自己就是。只是偶尔，也希望有人反过来问你一句：今天累不累？',
+    best:'柯基——你负责养，他负责闹，一个愿打一个愿挨。',
+    mission:'今天什么都不干，让别人来照顾你一次。' }
 };
 
 var QUESTIONS = [
@@ -318,6 +323,11 @@ function compute(){
 function finish(){
   var r = compute();
   var ranked = r.ranked, norm = r.norm;
+  var allA = answers.length === QUESTIONS.length && answers.every(function(a){ return a === 0; });
+  if (allA){
+    ranked = ['sitter'].concat(ranked.filter(function(k){ return k !== 'sitter'; }));
+    norm.sitter = 1;
+  }
   var top = TYPES[ranked[0]];
   show(result);
   $('rEmoji').textContent = top.emoji;
